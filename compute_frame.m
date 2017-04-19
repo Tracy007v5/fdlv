@@ -1,0 +1,49 @@
+clc;
+clear;
+info.dirfeat = '/home/wcj/UCF-101/';
+info.cls = {'BabyCrawling','BalanceBeam','BandMarching',...
+'BaseballPitch','Basketball','BasketballDunk','BenchPress','Biking','Billiards',...
+'BlowDryHair','BlowingCandles','BodyWeightSquats','Bowling','BoxingPunchingBag',...
+'BoxingSpeedBag','BreastStroke','BrushingTeeth','CleanAndJerk','CliffDiving',...
+'CricketBowling','CricketShot','CuttingInKitchen','Diving','Drumming','Fencing',...
+'FieldHockeyPenalty','FloorGymnastics','FrisbeeCatch','FrontCrawl','GolfSwing',...
+'Haircut','Hammering','HammerThrow','HandstandPushups','HandstandWalking','HeadMassage',...
+'HighJump','HorseRace','HorseRiding','HulaHoop','IceDancing','JavelinThrow','JugglingBalls',...
+'JumpingJack','JumpRope','Kayaking','Knitting','LongJump','Lunges','MilitaryParade','Mixing',...
+'MoppingFloor','Nunchucks','ParallelBars','PizzaTossing','PlayingCello','PlayingDaf','PlayingDhol',...
+'PlayingFlute','PlayingGuitar','PlayingPiano','PlayingSitar','PlayingTabla','PlayingViolin','PoleVault',...
+'PommelHorse','PullUps','Punch','PushUps','Rafting','RockClimbingIndoor','RopeClimbing','Rowing',...
+'SalsaSpin','ShavingBeard','Shotput','SkateBoarding','Skiing','Skijet','SkyDiving','SoccerJuggling',...
+'SoccerPenalty','StillRings','SumoWrestling','Surfing','Swing','TableTennisShot','TaiChi','TennisSwing',...
+'ThrowDiscus','TrampolineJumping','Typing','UnevenBars','VolleyballSpiking','WalkingWithDog','WallPushups',...
+'WritingOnBoard','YoYo'};
+info.ngroup = 25;
+ for i = 1:length(info.cls)
+ for j = 1:info.ngroup
+        idxGroup = sprintf('%02d', j);
+        k = 1;
+         while 1
+            idxVid = sprintf('%02d', k);
+filename = [info.dirfeat,info.cls{i},'/v_',info.cls{i},'_g',idxGroup,'_c',idxVid,'.avi'];
+if ~exist(filename, 'file')
+                break;
+           
+         end
+obj = VideoReader(filename);
+raws = obj.Width;
+columns = obj.Height;
+frames = obj.NumberOfFrames;
+explain = '# rows columns frames';
+fid = fopen([info.dirfeat,info.cls{i},'/v_',info.cls{i},'_g',idxGroup,'_c',idxVid,'.txt'],'a');
+fprintf(fid,'%s\n %d\n %d\n %d\n',explain,raws,columns,frames)
+fclose(fid);
+   
+         
+         if exist([info.dirfeat,info.cls{i},'/v_',info.cls{i},'_g',idxGroup,'_c',idxVid,'.txt'])
+                k = k + 1;
+                continue;
+         end
+         end
+ end
+  
+ end
